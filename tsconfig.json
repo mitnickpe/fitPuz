@@ -5,10 +5,6 @@
     "module": "ESNext",
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "skipLibCheck": true,
-    // Absolute
-    "paths": {
-      "@/*": ["./src/*"]
-    },
     // Bundler
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,

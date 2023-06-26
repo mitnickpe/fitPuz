@@ -10,7 +10,7 @@
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --fix",
     "format": "yarn pretty && yarn lint",
     "preview": "vite preview",
-    "deploy": "yarn build && gh-pages -b deploy -m 'build: Deployment' -d dist"
+    "deploy": "yarn build && gh-pages -b deployment -m 'build: Push to deploy' -d dist"
   },
   "devDependencies": {
     "@arrow-js/core": "^1.0.0-alpha.9",
