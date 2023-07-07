@@ -19,6 +19,7 @@ const template = t`
     <p class='flex items-center justify-center flex-col font-main text-center drop-shadow-xl select-none m-4 text-white font-bold text-lg'>
       by <a
            class='flex gap-1 items-center justify-center text-center hover:scale-110'
+           title='Go to GitHub'
            target='_blank'
            rel='noreferrer'
            href=${githubURL}>
