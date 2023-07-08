@@ -6,19 +6,81 @@ const githubURL = 'https://github.com/eldarlrd';
 
 const template = t`
   <header>
-    <h1 class='font-main drop-shadow-xl select-none m-4 text-white text-center text-3xl font-bold'>
+    <h1 class='drop-shadow-xl select-none m-6 text-white text-center text-4xl sm:text-5xl md:text-6xl font-bold'>
       Fifteen Puzzle
     </h1>
   </header>
 
-  <main>
+  <main class='flex flex-col items-center justify-center gap-4'>
+    <span class='flex items-center justify-between w-80 sm:w-96 md:w-[32em] text-white'>
+      <button class='drop-shadow-md font-bold bg-cyan-600 py-4 px-6 md:text-lg transition-colors rounded hover:bg-cyan-700'>
+        Shuffle
+      </button>
+      <figure class='drop-shadow-md flex gap-6 select-none rounded md:text-lg bg-cyan-600 px-4 py-1'>
+        <time class='text-end font-bold'>
+          <figcaption>Time</figcaption>
+          <p>0s</p>
+        </time>
+        <time class='text-end font-bold'>
+          <figcaption>Moves</figcaption>
+          <p>0</p>
+        </time>
+      </figure>
+    </span>
 
+    <section class='bg-cyan-600 grid p-1 gap-1 grid-cols-4 grid-rows-4 drop-shadow-md shadow-inner rounded w-80 h-80 sm:w-96 sm:h-96 md:w-[32em] md:h-[32em]'>
+      <div class='bg-cyan-400 drop-shadow-sm transition-transform rounded cursor-pointer text-white font-bold justify-center items-center flex text-4xl sm:text-5xl md:text-6xl'>
+        1
+      </div>
+      <div class='bg-cyan-400 drop-shadow-sm transition-transform rounded cursor-pointer text-white font-bold justify-center items-center flex text-4xl sm:text-5xl md:text-6xl'>
+        2
+      </div>
+      <div class='bg-cyan-400 drop-shadow-sm transition-transform rounded cursor-pointer text-white font-bold justify-center items-center flex text-4xl sm:text-5xl md:text-6xl'>
+        3
+      </div>
+      <div class='bg-cyan-400 drop-shadow-sm transition-transform rounded cursor-pointer text-white font-bold justify-center items-center flex text-4xl sm:text-5xl md:text-6xl'>
+        4
+      </div>
+      <div class='bg-cyan-400 drop-shadow-sm transition-transform rounded cursor-pointer text-white font-bold justify-center items-center flex text-4xl sm:text-5xl md:text-6xl'>
+        5
+      </div>
+      <div class='bg-cyan-400 drop-shadow-sm transition-transform rounded cursor-pointer text-pink-500 font-bold justify-center items-center flex text-4xl sm:text-5xl md:text-6xl'>
+        6
+      </div>
+      <div class='bg-cyan-400 drop-shadow-sm transition-transform rounded cursor-pointer text-white font-bold justify-center items-center flex text-4xl sm:text-5xl md:text-6xl'>
+        7
+      </div>
+      <div class='bg-cyan-400 drop-shadow-sm transition-transform rounded cursor-pointer text-white font-bold justify-center items-center flex text-4xl sm:text-5xl md:text-6xl'>
+        8
+      </div>
+      <div class='bg-cyan-400 drop-shadow-sm transition-transform rounded cursor-pointer text-pink-500 font-bold justify-center items-center flex text-4xl sm:text-5xl md:text-6xl'>
+        9
+      </div>
+      <div class='bg-cyan-400 drop-shadow-sm transition-transform rounded cursor-pointer text-white font-bold justify-center items-center flex text-4xl sm:text-5xl md:text-6xl'>
+        10
+      </div>
+      <div class='bg-cyan-400 drop-shadow-sm transition-transform rounded cursor-pointer text-white font-bold justify-center items-center flex text-4xl sm:text-5xl md:text-6xl'>
+        11
+      </div>
+      <div class='bg-cyan-400 drop-shadow-sm transition-transform rounded cursor-pointer text-white font-bold justify-center items-center flex text-4xl sm:text-5xl md:text-6xl'>
+        12
+      </div>
+      <div class='bg-cyan-400 drop-shadow-sm transition-transform rounded cursor-pointer text-white font-bold justify-center items-center flex text-4xl sm:text-5xl md:text-6xl'>
+        13
+      </div>
+      <div class='bg-cyan-400 drop-shadow-sm transition-transform rounded cursor-pointer text-white font-bold justify-center items-center flex text-4xl sm:text-5xl md:text-6xl'>
+        14
+      </div>
+      <div class='bg-cyan-400 drop-shadow-sm transition-transform rounded cursor-pointer text-white font-bold justify-center items-center flex text-4xl sm:text-5xl md:text-6xl'>
+        15
+      </div>
+    </section>
   </main>
 
   <footer>
-    <p class='flex items-center justify-center flex-col font-main text-center drop-shadow-xl select-none m-4 text-white font-bold text-lg'>
+    <p class='flex items-center justify-center flex-col text-center drop-shadow-xl select-none m-6 text-white font-bold sm:text-xl md:text-2xl text-lg'>
       by <a
-           class='flex gap-1 items-center justify-center text-center hover:scale-110'
+           class='flex gap-1 items-center justify-center transition-transform text-center hover:scale-110'
            title='Go to GitHub'
            target='_blank'
            rel='noreferrer'
