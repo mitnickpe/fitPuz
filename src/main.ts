@@ -77,6 +77,29 @@ const template = t`
     </section>
   </main>
 
+  <div class='fixed hidden z-10 items-center justify-center flex w-full h-full bg-black/75 inset-0'>
+    <section class='bg-sky-400 w-80 md:w-96 md:h-80 h-64 flex flex-col items-center gap-6 justify-center drop-shadow-2xl rounded-md'>
+      <p class='text-white select-none text-3xl md:text-4xl'>
+        Puzzle Solved
+      </p>
+      <span class='flex flex-col-reverse items-center justify-center gap-6 text-white'>
+        <button class='drop-shadow-md font-bold bg-cyan-600 py-4 md:py-5 px-6 text-lg transition-colors md:text-xl rounded hover:bg-cyan-700'>
+          Shuffle
+        </button>
+        <figure class='drop-shadow-md flex md:py-2 gap-6 select-none rounded text-lg md:text-xl bg-cyan-600 px-4 py-1'>
+          <time class='text-end font-bold'>
+            <figcaption>Time</figcaption>
+            <p>0s</p>
+          </time>
+          <time class='text-end font-bold'>
+            <figcaption>Moves</figcaption>
+            <p>0</p>
+          </time>
+        </figure>
+      </span>
+    </section>
+  </div>
+
   <footer>
     <p class='flex items-center justify-center flex-col text-center drop-shadow-xl select-none m-6 text-white font-bold sm:text-xl md:text-2xl text-lg'>
       by <a
