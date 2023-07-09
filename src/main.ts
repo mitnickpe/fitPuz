@@ -5,14 +5,21 @@ import './main.pcss';
 const githubURL = 'https://github.com/eldarlrd';
 
 const grid = r({
+  orderedIndex: <number[]>(<unknown>[]),
+  elementIndex: <number[]>(<unknown>[]),
   elements: <ArrowTemplate>(<unknown>[])
 });
 
 const gridLoop = () => {
-  for (let i = 1; i <= 15; i++) {
+  for (let i = 1; i <= 16; i++) {
+    grid.orderedIndex.push(i);
     grid.elements.push(
       t`
-      <div id=${i} class='flex cursor-pointer select-none items-center justify-center rounded bg-cyan-400 text-4xl font-bold text-white drop-shadow-sm transition-transform sm:text-5xl md:text-6xl'>
+      <div
+        class='${
+        i === 16 ? 'invisible' : ''
+      } flex cursor-pointer select-none items-center justify-center rounded bg-cyan-400 text-4xl font-bold text-white drop-shadow-sm transition-transform sm:text-5xl md:text-6xl'
+        @click='${() => move(i)}'>
         ${i}
       </div>
     `.key(i)
@@ -22,8 +29,26 @@ const gridLoop = () => {
 };
 
 const shuffle = () => {
-  grid.elements.sort(() => Math.random() - 0.5);
+  grid.elementIndex.length = 0;
+  grid.elements.sort(() => Math.random() - .5);
+  for (let i = 0; i < grid.elements.length; i++) {
+    grid.elementIndex.push(grid.elements[i]._k);
+  }
+  console.log(grid.orderedIndex);
+  console.log(grid.elementIndex);
 };
+
+const move = (gridElementValue: number) => {
+  const gridIndex = grid.elementIndex.indexOf(gridElementValue);
+  const empty = grid.elementIndex.indexOf(16);
+  if (![empty - 4, empty - 1, empty + 1, empty + 4].includes(gridIndex))
+    return;
+  console.log('empty: ' + empty)
+  console.log('elindex: ' + gridIndex)
+  console.log('elval: ' + gridElementValue)
+  grid.elementIndex.splice(gridIndex, 1);
+  grid.elementIndex.splice(empty, 0, grid.elementIndex[gridIndex]);
+}
 
 const template = t`
   <header>
@@ -36,7 +61,7 @@ const template = t`
     <span class='flex w-80 items-center justify-between text-white sm:w-96 md:w-[32em]'>
       <button
         class='rounded bg-cyan-600 px-6 py-4 font-bold drop-shadow-md transition-colors hover:bg-cyan-700 md:text-lg'
-        @click='${shuffle}'>
+        @click='${() => shuffle()}'>
         Shuffle
       </button>
       <figure class='flex select-none gap-6 rounded bg-cyan-600 px-4 py-1 drop-shadow-md md:text-lg'>
