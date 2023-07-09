@@ -5,23 +5,25 @@ import './main.pcss';
 const githubURL = 'https://github.com/eldarlrd';
 
 const grid = r({
-  elements: <ArrowTemplate><unknown>[]
+  elements: <ArrowTemplate>(<unknown>[])
 });
 
 const gridLoop = () => {
   for (let i = 1; i <= 15; i++) {
-    grid.elements.push(t`
+    grid.elements.push(
+      t`
       <div id=${i} class='flex cursor-pointer select-none items-center justify-center rounded bg-cyan-400 text-4xl font-bold text-white drop-shadow-sm transition-transform sm:text-5xl md:text-6xl'>
         ${i}
       </div>
-    `.key(i));
+    `.key(i)
+    );
   }
   shuffle();
 };
 
 const shuffle = () => {
-  grid.elements.sort(() => Math.random() - .5);
-}
+  grid.elements.sort(() => Math.random() - 0.5);
+};
 
 const template = t`
   <header>
