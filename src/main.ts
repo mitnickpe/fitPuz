@@ -4,15 +4,23 @@ import './main.pcss';
 
 const githubURL = 'https://github.com/eldarlrd';
 
-const gridElements: ArrowTemplate[] = [];
+const grid = r({
+  elements: <ArrowTemplate><unknown>[]
+});
+
 const gridLoop = () => {
   for (let i = 1; i <= 15; i++) {
-    gridElements.push(t`
-      <div class='flex cursor-pointer select-none items-center justify-center rounded bg-cyan-400 text-4xl font-bold text-white drop-shadow-sm transition-transform sm:text-5xl md:text-6xl'>
+    grid.elements.push(t`
+      <div id=${i} class='flex cursor-pointer select-none items-center justify-center rounded bg-cyan-400 text-4xl font-bold text-white drop-shadow-sm transition-transform sm:text-5xl md:text-6xl'>
         ${i}
       </div>
-    `);
-  }; return gridElements;
+    `.key(i));
+  }
+  shuffle();
+};
+
+const shuffle = () => {
+  grid.elements.sort(() => Math.random() - .5);
 }
 
 const template = t`
@@ -24,7 +32,9 @@ const template = t`
 
   <main class='flex flex-col items-center justify-center gap-4'>
     <span class='flex w-80 items-center justify-between text-white sm:w-96 md:w-[32em]'>
-      <button class='rounded bg-cyan-600 px-6 py-4 font-bold drop-shadow-md transition-colors hover:bg-cyan-700 md:text-lg'>
+      <button
+        class='rounded bg-cyan-600 px-6 py-4 font-bold drop-shadow-md transition-colors hover:bg-cyan-700 md:text-lg'
+        @click='${shuffle}'>
         Shuffle
       </button>
       <figure class='flex select-none gap-6 rounded bg-cyan-600 px-4 py-1 drop-shadow-md md:text-lg'>
@@ -40,7 +50,7 @@ const template = t`
     </span>
 
     <section class='grid h-80 w-80 grid-cols-4 grid-rows-4 gap-1 rounded bg-cyan-600 p-1 shadow-inner drop-shadow-md sm:h-96 sm:w-96 md:h-[32em] md:w-[32em]'>
-      ${gridElements}
+      ${() => grid.elements}
     </section>
   </main>
 
