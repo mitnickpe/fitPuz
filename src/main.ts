@@ -44,9 +44,11 @@ const move = (tileValue: number) => {
   const tileIndex = grid.elementValue.indexOf(tileValue);
   const emptyTile = grid.elementValue.indexOf(16);
 
-  if (![emptyTile - 4, emptyTile - 1,
-        emptyTile + 1, emptyTile + 4]
-        .includes(tileIndex)) return;
+  if (
+    ![emptyTile - 4, emptyTile - 1,
+      emptyTile + 1, emptyTile + 4]
+      .includes(tileIndex)
+  ) return;
 
   const newElements = r(
     [...grid.elementValue].map(e => {
@@ -55,8 +57,8 @@ const move = (tileValue: number) => {
         grid.elementValue.indexOf(e) !== tileIndex
       )
         return e;
-      else if (e === 16) return 16;
-      return tileValue;
+      else if (e === 16) return tileValue;
+      return 16;
     })
   );
   grid.elementValue = newElements;
