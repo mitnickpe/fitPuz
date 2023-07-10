@@ -1,4 +1,4 @@
-import { t, r, w, ArrowTemplate } from '@arrow-js/core';
+import { t, r, ArrowTemplate } from '@arrow-js/core';
 import githubLogo from './assets/github.svg';
 import './main.pcss';
 
@@ -13,42 +13,42 @@ const grid = r({
 const gridLoop = () => {
   for (let i = 1; i <= 16; i++) {
     grid.orderedIndex.push(i);
-    grid.elements.push(
-      t`
-      <div
-        class='${
-        i === 16 ? 'invisible' : ''
-      } flex cursor-pointer select-none items-center justify-center rounded bg-cyan-400 text-4xl font-bold text-white drop-shadow-sm transition-transform sm:text-5xl md:text-6xl'
-        @click='${() => move(i)}'>
-        ${i}
-      </div>
-    `.key(i)
-    );
+    grid.elementIndex.push(i);
   }
   shuffle();
 };
 
 const shuffle = () => {
-  grid.elementIndex.length = 0;
-  grid.elements.sort(() => Math.random() - .5);
-  for (let i = 0; i < grid.elements.length; i++) {
-    grid.elementIndex.push(grid.elements[i]._k);
-  }
-  console.log(grid.orderedIndex);
-  console.log(grid.elementIndex);
+  grid.elementIndex.sort(() => Math.random() - 0.5);
+  assign();
+};
+
+const assign = () => {
+  grid.elements.length = 0;
+  grid.elementIndex.forEach(e => {
+    grid.elements.push(t`
+      <div
+        class='${
+          e === 16 ? 'invisible' : ''
+        } flex cursor-pointer select-none items-center justify-center rounded bg-cyan-400 text-4xl font-bold text-white drop-shadow-sm transition-transform sm:text-5xl md:text-6xl'
+        @click='${() => move(e)}'>
+        ${e}
+      </div>
+    `.key(e));
+  });
 };
 
 const move = (gridElementValue: number) => {
   const gridIndex = grid.elementIndex.indexOf(gridElementValue);
   const empty = grid.elementIndex.indexOf(16);
-  if (![empty - 4, empty - 1, empty + 1, empty + 4].includes(gridIndex))
-    return;
-  console.log('empty: ' + empty)
-  console.log('elindex: ' + gridIndex)
-  console.log('elval: ' + gridElementValue)
+  if (![empty - 4, empty - 1, empty + 1, empty + 4].includes(gridIndex)) return;
+  console.log('empty: ' + empty);
+  console.log('elindex: ' + gridIndex);
+  console.log('elval: ' + gridElementValue);
   grid.elementIndex.splice(gridIndex, 1);
   grid.elementIndex.splice(empty, 0, grid.elementIndex[gridIndex]);
-}
+  assign();
+};
 
 const template = t`
   <header>
