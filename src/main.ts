@@ -6,27 +6,28 @@ const githubURL = 'https://github.com/eldarlrd';
 
 const grid = r({
   orderedIndex: <number[]>(<unknown>[]),
-  elementIndex: <number[]>(<unknown>[]),
-  elements: <ArrowTemplate>(<unknown>[])
+  elementValue: <number[]>(<unknown>[]),
+  elementTiles: <ArrowTemplate>(<unknown>[])
 });
 
 const gridLoop = () => {
   for (let i = 1; i <= 16; i++) {
     grid.orderedIndex.push(i);
-    grid.elementIndex.push(i);
+    grid.elementValue.push(i);
   }
   shuffle();
 };
 
 const shuffle = () => {
-  grid.elementIndex.sort(() => Math.random() - 0.5);
+  grid.elementValue.sort(() => Math.random() - 0.5);
   assign();
 };
 
 const assign = () => {
-  grid.elements.length = 0;
-  grid.elementIndex.forEach(e => {
-    grid.elements.push(t`
+  grid.elementTiles.length = 0;
+  grid.elementValue.forEach(e => {
+    grid.elementTiles.push(
+      t`
       <div
         class='${
           e === 16 ? 'invisible' : ''
@@ -34,19 +35,31 @@ const assign = () => {
         @click='${() => move(e)}'>
         ${e}
       </div>
-    `.key(e));
+    `.key(e)
+    );
   });
 };
 
-const move = (gridElementValue: number) => {
-  const gridIndex = grid.elementIndex.indexOf(gridElementValue);
-  const empty = grid.elementIndex.indexOf(16);
-  if (![empty - 4, empty - 1, empty + 1, empty + 4].includes(gridIndex)) return;
-  console.log('empty: ' + empty);
-  console.log('elindex: ' + gridIndex);
-  console.log('elval: ' + gridElementValue);
-  grid.elementIndex.splice(gridIndex, 1);
-  grid.elementIndex.splice(empty, 0, grid.elementIndex[gridIndex]);
+const move = (tileValue: number) => {
+  const tileIndex = grid.elementValue.indexOf(tileValue);
+  const emptyTile = grid.elementValue.indexOf(16);
+
+  if (![emptyTile - 4, emptyTile - 1,
+        emptyTile + 1, emptyTile + 4]
+        .includes(tileIndex)) return;
+
+  const newElements = r(
+    [...grid.elementValue].map(e => {
+      if (
+        grid.elementValue.indexOf(e) !== emptyTile &&
+        grid.elementValue.indexOf(e) !== tileIndex
+      )
+        return e;
+      else if (e === 16) return 16;
+      return tileValue;
+    })
+  );
+  grid.elementValue = newElements;
   assign();
 };
 
@@ -77,7 +90,7 @@ const template = t`
     </span>
 
     <section class='grid h-80 w-80 grid-cols-4 grid-rows-4 gap-1 rounded bg-cyan-600 p-1 shadow-inner drop-shadow-md sm:h-96 sm:w-96 md:h-[32em] md:w-[32em]'>
-      ${() => grid.elements}
+      ${() => grid.elementTiles}
     </section>
   </main>
 
