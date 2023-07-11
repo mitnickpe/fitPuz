@@ -1,24 +1,26 @@
 import { t, r, w, ArrowTemplate } from '@arrow-js/core';
 import githubLogo from './assets/github.svg';
+import solvedAudio from './assets/solved.mp3';
 import './main.pcss';
 
-const githubURL: string = 'https://github.com/eldarlrd';
-
+const githubURL = 'https://github.com/eldarlrd';
+// Reactive Variables
 const grid = r({
   orderedIndex: <number[]>(<unknown>[]),
   elementValue: <number[]>(<unknown>[]),
   matchingValue: <number[]>(<unknown>[]),
   elementTiles: <ArrowTemplate>(<unknown>[]),
   show: <boolean>false,
-  moves: <number>0,
+  volume: <boolean>false,
   ticking: <boolean>false,
   startTime: <number>0,
   endTime: <number>0,
   timeElapsed: <number>0,
   minutes: <number>0,
-  seconds: <number>0
+  seconds: <number>0,
+  moves: <number>0
 });
-
+// Set the Grid
 const gridLoop = () => {
   for (let i = 1; i <= 16; i++) {
     grid.orderedIndex.push(i);
@@ -26,7 +28,7 @@ const gridLoop = () => {
   }
   shuffle();
 };
-
+// Randomization
 const shuffle = () => {
   grid.elementValue.sort(() => Math.random() - 0.5);
   grid.startTime = 0;
@@ -35,7 +37,7 @@ const shuffle = () => {
   grid.moves = 0;
   assign();
 };
-
+// Population
 const assign = () => {
   grid.elementTiles.length = 0;
   grid.elementValue.forEach(e => {
@@ -44,8 +46,8 @@ const assign = () => {
         id=${e}
         class='${
           e === 16 ? 'invisible' : ''
-        } flex cursor-pointer transition-transform hover:scale-95 select-none items-center bg-cyan-400 justify-center rounded text-4xl font-bold text-white drop-shadow-sm sm:text-5xl md:text-6xl'
-        @click='${() => {move(e), timeStart()}}'>
+        } flex cursor-pointer select-none items-center justify-center rounded bg-cyan-400 text-4xl font-bold text-white drop-shadow-sm transition-transform hover:scale-95 sm:text-5xl md:text-6xl'
+        @click='${() => move(e)}'>
         ${e}
       </div>
     `.key(e)
@@ -54,7 +56,7 @@ const assign = () => {
   match();
   check();
 };
-
+// Tile Movement
 const move = (tileValue: number) => {
   const tileIndex = grid.elementValue.indexOf(tileValue);
   const emptyTile = grid.elementValue.indexOf(16);
@@ -80,7 +82,7 @@ const move = (tileValue: number) => {
   grid.moves++;
   assign();
 };
-
+// Timer Controls
 const timeStart = () => {
   if (grid.startTime === 0) {
     grid.ticking = true;
@@ -97,19 +99,19 @@ const timeStop = () => {
     grid.seconds = ~~(grid.timeElapsed - grid.minutes * 60);
   }
 };
-
+// Verify if Orders Match
 const match = () => {
   grid.matchingValue.length = 0;
   grid.elementValue.forEach((v, i) => {
     if (v === grid.orderedIndex[i])
       grid.matchingValue.push(v);
-    grid.matchingValue.splice(grid.matchingValue.indexOf(v))
+    grid.matchingValue.splice(grid.matchingValue.indexOf(v));
   });
   colorSet();
 };
-
+// Correctly Placed Tiles
 const colorSet = () => {
-  grid.elementValue.forEach((v) => {
+  grid.elementValue.forEach(v => {
     if (grid.matchingValue.includes(v))
       document.getElementById(v.toString())
       ?.classList.add('bg-emerald-400');
@@ -118,16 +120,19 @@ const colorSet = () => {
       ?.classList.remove('bg-emerald-400');
   });
 };
-
+// Checking for a Solution
 const check = () => {
   const modal = document.getElementById('modal');
+  const audio = new Audio(`${solvedAudio}`);
   grid.show = grid.elementValue.every((e, i) => {
-    if (e === grid.orderedIndex[i])
-      return true;
+    if (e === grid.orderedIndex[i]) return true;
     return false;
   });
 
   if (grid.show) {
+    if (grid.volume)
+      audio?.play();
+    grid.volume = true;
     grid.ticking = false;
     modal?.classList.remove('hidden');
   } else modal?.classList.add('hidden');
@@ -166,7 +171,7 @@ const template = t`
     </section>
   </main>
 
-  <div id='modal' class='fixed hidden inset-0 z-10 flex h-full w-full items-center justify-center bg-black/75'>
+  <div id='modal' class='fixed inset-0 z-10 flex hidden h-full w-full items-center justify-center bg-black/75'>
     <section class='flex h-64 w-80 flex-col items-center justify-center gap-6 rounded-md bg-sky-400 drop-shadow-2xl md:h-80 md:w-96'>
       <p class='select-none text-3xl text-white md:text-4xl'>
         Puzzle Solved
@@ -210,11 +215,13 @@ const template = t`
     </p>
   </footer>
 `;
-
+// Watchers
 w(match);
 w(check);
 w(timeStart);
 gridLoop();
-
+// Easter Egg
+console.log("Hope you don't get the 14-15 one!");
+// Render
 const appElement = document.getElementById('app');
 if (appElement !== null) template(appElement);
