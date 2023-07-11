@@ -1,4 +1,4 @@
-import { t, r, ArrowTemplate } from '@arrow-js/core';
+import { t, r, w, ArrowTemplate } from '@arrow-js/core';
 import githubLogo from './assets/github.svg';
 import './main.pcss';
 
@@ -7,6 +7,7 @@ const githubURL = 'https://github.com/eldarlrd';
 const grid = r({
   orderedIndex: <number[]>(<unknown>[]),
   elementValue: <number[]>(<unknown>[]),
+  matchingValue: <number[]>(<unknown>[]),
   elementTiles: <ArrowTemplate>(<unknown>[]),
   hide: <boolean>true,
   moves: <number>0
@@ -31,15 +32,17 @@ const assign = () => {
   grid.elementValue.forEach(e => {
     grid.elementTiles.push(t`
       <div
+        id=${e}
         class='${
           e === 16 ? 'invisible' : ''
-        } flex cursor-pointer transition-transform hover:scale-95 select-none items-center justify-center rounded bg-cyan-400 text-4xl font-bold text-white drop-shadow-sm sm:text-5xl md:text-6xl'
+        } flex cursor-pointer transition-transform hover:scale-95 select-none items-center bg-cyan-400 justify-center rounded text-4xl font-bold text-white drop-shadow-sm sm:text-5xl md:text-6xl'
         @click='${() => move(e)}'>
         ${e}
       </div>
     `.key(e)
     );
   });
+  match();
   check();
 };
 
@@ -69,15 +72,35 @@ const move = (tileValue: number) => {
   assign();
 };
 
+const match = () => {
+  grid.matchingValue.length = 0;
+  grid.elementValue.forEach((v, i) => {
+    if (v === grid.orderedIndex[i])
+      grid.matchingValue.push(v);
+    grid.matchingValue.splice(grid.matchingValue.indexOf(v))
+  });
+  colorSet();
+};
+
+const colorSet = () => {
+  grid.elementValue.forEach((v) => {
+    if (grid.matchingValue.includes(v))
+      document.getElementById(v.toString())
+      ?.classList.add('bg-emerald-400');
+    else
+      document.getElementById(v.toString())
+      ?.classList.remove('bg-emerald-400');
+  });
+}
+
 const check = () => {
   const modal = document.getElementById('modal');
   grid.hide = grid.elementValue.every((e, i) => {
-    console.log(e);
-    console.log(grid.orderedIndex[i])
     if (e === grid.orderedIndex[i])
       return true;
     return false;
   });
+
   grid.hide
     ? modal?.classList.remove('hidden')
     : modal?.classList.add('hidden')
@@ -157,6 +180,8 @@ const template = t`
   </footer>
 `;
 
+w(match);
+w(check);
 gridLoop();
 
 const appElement = document.getElementById('app');
