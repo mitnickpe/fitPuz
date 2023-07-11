@@ -2,20 +2,19 @@ import { t, r, w, ArrowTemplate } from '@arrow-js/core';
 import githubLogo from './assets/github.svg';
 import './main.pcss';
 
-const githubURL = 'https://github.com/eldarlrd';
+const githubURL: string = 'https://github.com/eldarlrd';
 
 const grid = r({
   orderedIndex: <number[]>(<unknown>[]),
   elementValue: <number[]>(<unknown>[]),
   matchingValue: <number[]>(<unknown>[]),
   elementTiles: <ArrowTemplate>(<unknown>[]),
-  hide: <boolean>true,
+  show: <boolean>false,
   moves: <number>0,
   ticking: <boolean>false,
   startTime: <number>0,
   endTime: <number>0,
   timeElapsed: <number>0,
-  hours: <number>0,
   minutes: <number>0,
   seconds: <number>0
 });
@@ -122,15 +121,16 @@ const colorSet = () => {
 
 const check = () => {
   const modal = document.getElementById('modal');
-  grid.hide = grid.elementValue.every((e, i) => {
+  grid.show = grid.elementValue.every((e, i) => {
     if (e === grid.orderedIndex[i])
       return true;
     return false;
   });
 
-  grid.hide
-    ? modal?.classList.remove('hidden')
-    : modal?.classList.add('hidden')
+  if (grid.show) {
+    grid.ticking = false;
+    modal?.classList.remove('hidden');
+  } else modal?.classList.add('hidden');
 };
 
 const template = t`
