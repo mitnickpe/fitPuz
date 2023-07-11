@@ -10,7 +10,14 @@ const grid = r({
   matchingValue: <number[]>(<unknown>[]),
   elementTiles: <ArrowTemplate>(<unknown>[]),
   hide: <boolean>true,
-  moves: <number>0
+  moves: <number>0,
+  ticking: <boolean>false,
+  startTime: <number>0,
+  endTime: <number>0,
+  timeElapsed: <number>0,
+  hours: <number>0,
+  minutes: <number>0,
+  seconds: <number>0
 });
 
 const gridLoop = () => {
@@ -23,6 +30,9 @@ const gridLoop = () => {
 
 const shuffle = () => {
   grid.elementValue.sort(() => Math.random() - 0.5);
+  grid.startTime = 0;
+  grid.endTime = 0;
+  grid.timeElapsed = 0;
   grid.moves = 0;
   assign();
 };
@@ -36,7 +46,7 @@ const assign = () => {
         class='${
           e === 16 ? 'invisible' : ''
         } flex cursor-pointer transition-transform hover:scale-95 select-none items-center bg-cyan-400 justify-center rounded text-4xl font-bold text-white drop-shadow-sm sm:text-5xl md:text-6xl'
-        @click='${() => move(e)}'>
+        @click='${() => {move(e), timeStart()}}'>
         ${e}
       </div>
     `.key(e)
@@ -72,6 +82,23 @@ const move = (tileValue: number) => {
   assign();
 };
 
+const timeStart = () => {
+  if (grid.startTime === 0) {
+    grid.ticking = true;
+    grid.startTime = performance.now();
+  } timeStop();
+};
+
+const timeStop = () => {
+  if (grid.startTime > 0 && grid.ticking) {
+    grid.endTime = performance.now();
+    grid.timeElapsed = grid.endTime - grid.startTime;
+    grid.timeElapsed /= 1000;
+    grid.minutes = ~~(grid.timeElapsed / 60);
+    grid.seconds = ~~(grid.timeElapsed - grid.minutes * 60);
+  }
+};
+
 const match = () => {
   grid.matchingValue.length = 0;
   grid.elementValue.forEach((v, i) => {
@@ -91,7 +118,7 @@ const colorSet = () => {
       document.getElementById(v.toString())
       ?.classList.remove('bg-emerald-400');
   });
-}
+};
 
 const check = () => {
   const modal = document.getElementById('modal');
@@ -123,7 +150,9 @@ const template = t`
       <figure class='flex select-none gap-6 rounded bg-cyan-600 px-4 py-1 drop-shadow-md md:text-lg'>
         <time class='text-end font-bold'>
           <figcaption>Time</figcaption>
-          <p>0s</p>
+          <p class='w-20 min-w-max'>
+            ${() => `${grid.minutes === 0 ? '' : grid.minutes + 'm'} ${grid.seconds}s`}
+          </p>
         </time>
         <time class='text-end font-bold'>
           <figcaption>Moves</figcaption>
@@ -151,7 +180,9 @@ const template = t`
         <figure class='flex select-none gap-6 rounded bg-cyan-600 px-4 py-1 text-lg drop-shadow-md md:py-2 md:text-xl'>
           <time class='text-end font-bold'>
             <figcaption>Time</figcaption>
-            <p>0s</p>
+            <p class='w-20 min-w-max'>
+              ${() => `${grid.minutes === 0 ? '' : grid.minutes + 'm'} ${grid.seconds}s`}
+            </p>
           </time>
           <time class='text-end font-bold'>
             <figcaption>Moves</figcaption>
@@ -182,6 +213,7 @@ const template = t`
 
 w(match);
 w(check);
+w(timeStart);
 gridLoop();
 
 const appElement = document.getElementById('app');
