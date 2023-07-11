@@ -40,7 +40,7 @@ const assign = () => {
     `.key(e)
     );
   });
-  () => check();
+  check();
 };
 
 const move = (tileValue: number) => {
@@ -70,11 +70,17 @@ const move = (tileValue: number) => {
 };
 
 const check = () => {
-  grid.elementValue.every((e, i) => {
+  const modal = document.getElementById('modal');
+  grid.hide = grid.elementValue.every((e, i) => {
+    console.log(e);
+    console.log(grid.orderedIndex[i])
     if (e === grid.orderedIndex[i])
-      console.log('YAY');
-    () => grid.hide = true;
+      return true;
+    return false;
   });
+  grid.hide
+    ? modal?.classList.remove('hidden')
+    : modal?.classList.add('hidden')
 };
 
 const template = t`
@@ -108,7 +114,7 @@ const template = t`
     </section>
   </main>
 
-  <div class='${grid.hide ? 'hidden' : ''} fixed inset-0 z-10 flex h-full w-full items-center justify-center bg-black/75'>
+  <div id='modal' class='fixed hidden inset-0 z-10 flex h-full w-full items-center justify-center bg-black/75'>
     <section class='flex h-64 w-80 flex-col items-center justify-center gap-6 rounded-md bg-sky-400 drop-shadow-2xl md:h-80 md:w-96'>
       <p class='select-none text-3xl text-white md:text-4xl'>
         Puzzle Solved
