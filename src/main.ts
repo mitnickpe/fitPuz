@@ -1,7 +1,7 @@
 import { t, r, w, ArrowTemplate } from '@arrow-js/core';
-import githubLogo from './assets/github.svg';
-import solvedAudio from './assets/solved.mp3';
-import './main.pcss';
+import githubLogo from '@/assets/github.svg';
+import solvedAudio from '@/assets/solved.mp3';
+import '@/main.pcss';
 
 const githubURL = 'https://github.com/eldarlrd';
 // Reactive Variables
