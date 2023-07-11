@@ -7,7 +7,9 @@ const githubURL = 'https://github.com/eldarlrd';
 const grid = r({
   orderedIndex: <number[]>(<unknown>[]),
   elementValue: <number[]>(<unknown>[]),
-  elementTiles: <ArrowTemplate>(<unknown>[])
+  elementTiles: <ArrowTemplate>(<unknown>[]),
+  hide: <boolean>true,
+  moves: <number>0
 });
 
 const gridLoop = () => {
@@ -20,24 +22,25 @@ const gridLoop = () => {
 
 const shuffle = () => {
   grid.elementValue.sort(() => Math.random() - 0.5);
+  grid.moves = 0;
   assign();
 };
 
 const assign = () => {
   grid.elementTiles.length = 0;
   grid.elementValue.forEach(e => {
-    grid.elementTiles.push(
-      t`
+    grid.elementTiles.push(t`
       <div
         class='${
           e === 16 ? 'invisible' : ''
-        } flex cursor-pointer select-none items-center justify-center rounded bg-cyan-400 text-4xl font-bold text-white drop-shadow-sm transition-transform sm:text-5xl md:text-6xl'
+        } flex cursor-pointer transition-transform hover:scale-95 select-none items-center justify-center rounded bg-cyan-400 text-4xl font-bold text-white drop-shadow-sm sm:text-5xl md:text-6xl'
         @click='${() => move(e)}'>
         ${e}
       </div>
     `.key(e)
     );
   });
+  () => check();
 };
 
 const move = (tileValue: number) => {
@@ -55,14 +58,23 @@ const move = (tileValue: number) => {
       if (
         grid.elementValue.indexOf(e) !== emptyTile &&
         grid.elementValue.indexOf(e) !== tileIndex
-      )
-        return e;
+      ) return e;
       else if (e === 16) return tileValue;
       return 16;
     })
   );
+
   grid.elementValue = newElements;
+  grid.moves++;
   assign();
+};
+
+const check = () => {
+  grid.elementValue.every((e, i) => {
+    if (e === grid.orderedIndex[i])
+      console.log('YAY');
+    () => grid.hide = true;
+  });
 };
 
 const template = t`
@@ -86,7 +98,7 @@ const template = t`
         </time>
         <time class='text-end font-bold'>
           <figcaption>Moves</figcaption>
-          <p>0</p>
+          <p>${() => grid.moves}</p>
         </time>
       </figure>
     </span>
@@ -96,13 +108,15 @@ const template = t`
     </section>
   </main>
 
-  <div class='fixed inset-0 z-10 flex hidden h-full w-full items-center justify-center bg-black/75'>
+  <div class='${grid.hide ? 'hidden' : ''} fixed inset-0 z-10 flex h-full w-full items-center justify-center bg-black/75'>
     <section class='flex h-64 w-80 flex-col items-center justify-center gap-6 rounded-md bg-sky-400 drop-shadow-2xl md:h-80 md:w-96'>
       <p class='select-none text-3xl text-white md:text-4xl'>
         Puzzle Solved
       </p>
       <span class='flex flex-col-reverse items-center justify-center gap-6 text-white'>
-        <button class='rounded bg-cyan-600 px-6 py-4 text-lg font-bold drop-shadow-md transition-colors hover:bg-cyan-700 md:py-5 md:text-xl'>
+        <button
+          class='rounded bg-cyan-600 px-6 py-4 text-lg font-bold drop-shadow-md transition-colors hover:bg-cyan-700 md:py-5 md:text-xl'
+          @click='${() => shuffle()}'>
           Shuffle
         </button>
         <figure class='flex select-none gap-6 rounded bg-cyan-600 px-4 py-1 text-lg drop-shadow-md md:py-2 md:text-xl'>
@@ -112,7 +126,7 @@ const template = t`
           </time>
           <time class='text-end font-bold'>
             <figcaption>Moves</figcaption>
-            <p>0</p>
+            <p>${() => grid.moves}</p>
           </time>
         </figure>
       </span>
