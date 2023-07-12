@@ -60,20 +60,29 @@ const assign = () => {
 const move = (tileValue: number) => {
   const tileIndex = grid.elementValue.indexOf(tileValue);
   const emptyTile = grid.elementValue.indexOf(16);
+  let shiftLeft = emptyTile - 1;
+  let shiftRight = emptyTile + 1;
+
+  if (tileIndex < 0 || tileIndex > 15) return;
+
+  if ([12, 8, 4].includes(emptyTile))
+    shiftLeft = -1;
+  if ([11, 7, 3].includes(emptyTile))
+    shiftRight = -1;
 
   if (
-    ![emptyTile - 4, emptyTile - 1,
-      emptyTile + 1, emptyTile + 4]
+    ![emptyTile - 4, emptyTile + 4,
+      shiftLeft, shiftRight]
       .includes(tileIndex)
   ) return;
 
   const newElements = r(
-    [...grid.elementValue].map(e => {
+    [...grid.elementValue].map(v => {
       if (
-        grid.elementValue.indexOf(e) !== emptyTile &&
-        grid.elementValue.indexOf(e) !== tileIndex
-      ) return e;
-      else if (e === 16) return tileValue;
+        grid.elementValue.indexOf(v) !== emptyTile &&
+        grid.elementValue.indexOf(v) !== tileIndex
+      ) return v;
+      else if (v === 16) return tileValue;
       return 16;
     })
   );
@@ -81,6 +90,34 @@ const move = (tileValue: number) => {
   grid.elementValue = newElements;
   grid.moves++;
   assign();
+};
+// Keyboard Controls
+const keyControl = (key: KeyboardEvent) => {
+  if (
+    ['ArrowUp', 'ArrowLeft', 'ArrowRight',
+     'ArrowDown', 'KeyR'].includes(key.code)
+  ) key.preventDefault();
+
+  switch (key.code) {
+    case 'ArrowUp':
+      move(grid.elementValue[
+        grid.elementValue.indexOf(16) + 4]
+      ); break;
+    case 'ArrowLeft':
+      move(grid.elementValue[
+        grid.elementValue.indexOf(16) + 1]
+      ); break;
+    case 'ArrowRight':
+      move(grid.elementValue[
+        grid.elementValue.indexOf(16) - 1]
+      ); break;
+    case 'ArrowDown':
+      move(grid.elementValue[
+        grid.elementValue.indexOf(16) - 4]
+      ); break;
+    case 'KeyR':
+      shuffle();
+  }
 };
 // Timer Controls
 const timeStart = () => {
@@ -124,8 +161,8 @@ const colorSet = () => {
 const check = () => {
   const modal = document.getElementById('modal');
   const audio = new Audio(`${solvedAudio}`);
-  grid.show = grid.elementValue.every((e, i) => {
-    if (e === grid.orderedIndex[i]) return true;
+  grid.show = grid.elementValue.every((v, i) => {
+    if (v === grid.orderedIndex[i]) return true;
     return false;
   });
 
@@ -148,7 +185,7 @@ const template = t`
   <main class='flex flex-col items-center justify-center gap-4'>
     <span class='flex w-80 items-center justify-between text-white sm:w-96 md:w-[32em]'>
       <button
-        class='rounded bg-cyan-600 px-6 py-4 font-bold drop-shadow-md transition-colors hover:bg-cyan-700 md:text-lg'
+        class='rounded select-none bg-cyan-600 px-6 py-4 font-bold drop-shadow-md transition-colors outline-none hover:bg-cyan-700 md:text-lg'
         @click='${() => shuffle()}'>
         Shuffle
       </button>
@@ -178,7 +215,7 @@ const template = t`
       </p>
       <span class='flex flex-col-reverse items-center justify-center gap-6 text-white'>
         <button
-          class='rounded bg-cyan-600 px-6 py-4 text-lg font-bold drop-shadow-md transition-colors hover:bg-cyan-700 md:py-5 md:text-xl'
+          class='rounded select-none bg-cyan-600 px-6 py-4 text-lg font-bold drop-shadow-md transition-colors outline-none hover:bg-cyan-700 md:py-5 md:text-xl'
           @click='${() => shuffle()}'>
           Shuffle
         </button>
@@ -220,6 +257,7 @@ w(match);
 w(check);
 w(timeStart);
 gridLoop();
+document.addEventListener('keydown', key => keyControl(key));
 // Easter Egg
 console.log("Hope you don't get the 14-15 one!");
 // Render
