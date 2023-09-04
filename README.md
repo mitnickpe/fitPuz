@@ -3,7 +3,7 @@
 [![License](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/eldarlrd/fifteen-puzzle/main/package.json&query=license&logo=open-source-initiative&logoColor=fff&label=license&labelColor=475569&color=c026d3)](https://github.com/eldarlrd/fifteen-puzzle/blob/main/LICENSE)
 
 > Fifteen Puzzle is a web game built using
-> - **[ArrowJS](https://arrow-js.com)**
+> - **[Arrow](https://arrow-js.com)**
 > - **[TypeScript](https://typescriptlang.org)**
 > - **[Tailwind](https://tailwindcss.com)**
 > - **[Vite](https://vitejs.dev)**
