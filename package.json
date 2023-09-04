@@ -1,37 +1,64 @@
 {
   "name": "fifteen-puzzle",
   "private": true,
-  "version": "1.1.2",
+  "version": "1.2.0",
   "type": "module",
+  "keywords": [
+    "15 puzzle",
+    "web game",
+    "puzzle"
+  ],
+  "description": "A 15 Puzzle Game",
+  "repository": "github:eldarlrd/fifteen-puzzle",
+  "homepage": "https://eldarlrd.github.io/fifteen-puzzle",
+  "author": "Eldar Pashazade <eldarlrd@pm.me> (https://eldarlrd.github.io)",
+  "license": "AGPL-3.0-only",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "pretty": "prettier --write src/**/*.{ts,tsx,pcss}",
-    "style": "stylelint **/*.{css,pcss,scss,less}",
-    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives",
-    "format": "yarn pretty && yarn style --fix && yarn lint --fix",
     "preview": "vite preview",
-    "deploy": "yarn build && gh-pages -b deployment -m 'build: Deployment' -d dist"
+    "deploy": "yarn build && gh-pages -b deployment -m 'build: Deployment' -d dist",
+    "lint": "eslint src/ --ext .ts,.tsx --report-unused-disable-directives",
+    "style": "stylelint **/*.{css,pcss,scss,less}",
+    "pretty": "prettier 'src/**/*.{ts,tsx,pcss}' --write",
+    "format": "yarn lint --fix && yarn style --fix && yarn pretty"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "jsxSingleQuote": true,
+    "bracketSameLine": true,
+    "trailingComma": "none",
+    "arrowParens": "avoid",
+    "plugins": [
+      "prettier-plugin-tailwindcss"
+    ]
+  },
+  "dependencies": {
+    "@arrow-js/core": "^1.0.0-alpha.9"
   },
   "devDependencies": {
-    "@arrow-js/core": "^1.0.0-alpha.9",
-    "@typescript-eslint/eslint-plugin": "^6.0.0",
-    "@typescript-eslint/parser": "^6.0.0",
-    "autoprefixer": "^10.4.14",
-    "eslint": "^8.44.0",
-    "eslint-config-prettier": "^8.8.0",
-    "gh-pages": "^5.0.0",
-    "postcss": "^8.4.25",
+    "@typescript-eslint/eslint-plugin": "^6.6.0",
+    "@typescript-eslint/parser": "^6.6.0",
+    "autoprefixer": "^10.4.15",
+    "eslint": "^8.48.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-import-resolver-typescript": "^3.6.0",
+    "eslint-plugin-import": "^2.28.1",
+    "eslint-plugin-n": "^16.0.2",
+    "eslint-plugin-no-relative-import-paths": "^1.5.2",
+    "eslint-plugin-promise": "^6.1.1",
+    "gh-pages": "^6.0.0",
+    "postcss": "^8.4.29",
     "postcss-advanced-variables": "^3.0.1",
     "postcss-extend": "^1.0.5",
-    "postcss-nesting": "^12.0.0",
-    "postcss-preset-env": "^9.0.0",
-    "prettier": "^3.0.0",
-    "prettier-plugin-tailwindcss": "^0.4.0",
-    "stylelint": "^15.10.1",
-    "stylelint-config-standard-scss": "^10.0.0",
-    "tailwindcss": "^3.3.2",
-    "typescript": "^5.1.6",
-    "vite": "^4.4.3"
+    "postcss-nesting": "^12.0.1",
+    "postcss-preset-env": "^9.1.3",
+    "prettier": "^3.0.3",
+    "prettier-plugin-tailwindcss": "^0.5.4",
+    "stylelint": "^15.10.3",
+    "stylelint-config-standard-scss": "^11.0.0",
+    "tailwindcss": "^3.3.3",
+    "typescript": "^5.2.2",
+    "vite": "^4.4.9"
   }
 }

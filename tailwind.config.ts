@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+
+// https://tailwindcss.com/docs/configuration
 export default {
   content: [
     'index.html',
@@ -6,10 +8,7 @@ export default {
   ],
   theme: {
     extend: {
-      fontFamily: {
-        main: 'Righteous, sans'
-      }
+      fontFamily: { main: 'Righteous, sans' }
     }
-  },
-  plugins: []
+  }
 }

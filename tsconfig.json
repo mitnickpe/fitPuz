@@ -5,19 +5,23 @@
     "module": "ESNext",
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "skipLibCheck": true,
+    "composite": true,
     // Bundler
     "types": ["vite/client"],
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
+    "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
+    "paths": {
+      "@/*": ["./src/*"]
+    },
     // Linting
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
-  "references": [{ "path": "tsconfig.node.json" }]
+  "include": ["src", "vite.config.mts", "tailwind.config.ts"]
 }
