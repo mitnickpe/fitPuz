@@ -45,6 +45,7 @@
     "import/no-useless-path-segments": 2,
     "import/no-default-export": 2,
     "import/group-exports": 2,
+    "n/no-extraneous-import": 0,
     "n/no-missing-import": 0,
     "no-unused-vars": 0,
     "eqeqeq": 2

@@ -30,7 +30,16 @@ import githubLogo from '@/assets/github.svg';
 import solvedAudio from '@/assets/solved.mp3';
 import '@/main.pcss';
 
-const githubURL = 'https://github.com/eldarlrd/fifteen-puzzle';
+// Register Service Worker
+const registerSW = (): void => {
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/fifteen-puzzle/sw.js', {
+        scope: '/fifteen-puzzle/'
+      });
+    });
+  }
+};
 // Reactive Variables
 const grid = r({
   orderedIndex: [] as unknown as number[],
@@ -276,7 +285,7 @@ const template = t`
            target='_blank'
            type='text/html'
            rel='noopener noreferrer nofollow external author'
-           href=${githubURL}>
+           href='https://github.com/eldarlrd/fifteen-puzzle'>
            <img
              class='h-6 w-6'
              alt='GitHub Logo'
@@ -291,6 +300,7 @@ w(match);
 w(check);
 w(timeStart);
 gridLoop();
+registerSW();
 document.addEventListener('keydown', key => {
   keyControl(key);
 });
