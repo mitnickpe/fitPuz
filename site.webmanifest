@@ -1,1 +1,24 @@
-{"name":"Fifteen Puzzle","short_name":"Fifteen","start_url":"https://eldarlrd.github.io/fifteen-puzzle","display":"minimal-ui","background_color":"#4abeed","lang":"en","scope":"/fifteen-puzzle/","dir":"ltr","categories":["entertainment","games"],"orientation":"natural","theme_color":"#38bdf8","description":"A 15 Puzzle Game","icons":[{"src":"favicon.png","type":"image/png","sizes":"512x512","purpose":"any maskable"}]}
+{
+  "name": "Fifteen Puzzle",
+  "short_name": "Fifteen",
+  "dir": "ltr",
+  "lang": "en",
+  "categories": [
+    "entertainment",
+    "games"
+  ],
+  "display": "standalone",
+  "orientation": "natural",
+  "theme_color": "#38bdf8",
+  "background_color": "#4abeed",
+  "description": "A PWA 15 Puzzle Game",
+  "start_url": "https://eldarlrd.github.io/fifteen-puzzle",
+  "icons": [
+    {
+      "src": "favicon.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ]
+}
