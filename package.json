@@ -1,14 +1,14 @@
 {
   "name": "fifteen-puzzle",
   "private": true,
-  "version": "1.2.1",
+  "version": "1.2.2",
   "type": "module",
   "keywords": [
     "15 puzzle",
     "web game",
     "puzzle"
   ],
-  "description": "A 15 Puzzle Game",
+  "description": "A PWA 15 Puzzle Game",
   "repository": "github:eldarlrd/fifteen-puzzle",
   "homepage": "https://eldarlrd.github.io/fifteen-puzzle",
   "author": "Eldar Pashazade <eldarlrd@pm.me> (https://eldarlrd.github.io)",
