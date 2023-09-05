@@ -6,8 +6,8 @@
 > - **[Arrow](https://arrow-js.com)**
 > - **[TypeScript](https://typescriptlang.org)**
 > - **[Tailwind](https://tailwindcss.com)**
-> - **[Vite](https://vitejs.dev)**
 > - **[Vite PWA](https://vite-pwa-org.netlify.app)**
+> - **[Vite](https://vitejs.dev)**
 >
 > with a tracker for moves and time spent.
 
