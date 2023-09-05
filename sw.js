@@ -1226,6 +1226,6 @@ function ce(a, e) {
   re(a), te(e);
 }
 ne();
-ce([{"revision":null,"url":"assets/github-bb39f6ee.svg"},{"revision":null,"url":"assets/index-1ff70547.js"},{"revision":null,"url":"assets/index-500a7d52.css"},{"revision":null,"url":"assets/solved-698d9f57.mp3"},{"revision":"7af61a01c24e6944e9ea6f22934129df","url":"favicon.png"},{"revision":"224eb6955a54a79d8fe4997543bbf9ed","url":"index.html"},{"revision":"73d3ebdb115ad0d3667c95a7b020cb26","url":"Righteous.woff2"},{"revision":"0c7746c6d9e2e604e4a872c478ceccad","url":"site.webmanifest"}]);
+ce([{"revision":null,"url":"assets/github-bb39f6ee.svg"},{"revision":null,"url":"assets/index-1ff70547.js"},{"revision":null,"url":"assets/index-500a7d52.css"},{"revision":null,"url":"assets/solved-698d9f57.mp3"},{"revision":"7af61a01c24e6944e9ea6f22934129df","url":"favicon.png"},{"revision":"9ba93e8a1a8cf7ba16e08719fd61ed94","url":"index.html"},{"revision":"73d3ebdb115ad0d3667c95a7b020cb26","url":"Righteous.woff2"},{"revision":"4bb3f3ed97774006e1d77e2f7da44680","url":"site.webmanifest"}]);
 self.skipWaiting();
 S();
