@@ -40,22 +40,26 @@ const registerSW = (): void => {
     });
   }
 };
+
 // Reactive Variables
 const grid = r({
   orderedIndex: [] as unknown as number[],
   elementValue: [] as unknown as number[],
   matchingValue: [] as unknown as number[],
   elementTiles: [] as unknown as ArrowTemplate,
+  isEvenRow: false as boolean,
   show: false as boolean,
   volume: false as boolean,
   ticking: false as boolean,
   startTime: 0 as number,
   endTime: 0 as number,
   timeElapsed: 0 as number,
+  inversions: 0 as number,
   minutes: 0 as number,
   seconds: 0 as number,
   moves: 0 as number
 });
+
 // Set the Grid
 const gridLoop = (): void => {
   for (let i = 1; i <= 16; i++) {
@@ -64,15 +68,45 @@ const gridLoop = (): void => {
   }
   shuffle();
 };
-// Randomization
+
+// Fisher-Yates Shuffle
 const shuffle = (): void => {
-  grid.elementValue.sort(() => Math.random() - 0.5);
+  for (let i = 15; i > 0; i--) {
+    const j = ~~(Math.random() * (i + 1));
+    const k = grid.elementValue[i] as number;
+    grid.elementValue[i] = grid.elementValue[j] as number;
+    grid.elementValue[j] = k;
+  }
   grid.startTime = 0;
   grid.endTime = 0;
   grid.timeElapsed = 0;
   grid.moves = 0;
-  assign();
+  isSolvable();
 };
+
+// Check if Solvable
+const isSolvable = (): void => {
+  grid.inversions = 0;
+  for (let i = 0; i < 15; i++) {
+    for (let j = i + 1; j < 16; j++) {
+      if (
+        grid.elementValue[i] > grid.elementValue[j] &&
+        grid.elementValue[i] !== 16 &&
+        grid.elementValue[j] !== 16
+      )
+        grid.inversions++;
+    }
+  }
+
+  grid.isEvenRow = ~~(grid.elementValue.indexOf(16) / 4) % 2 === 0;
+  if (
+    (grid.isEvenRow && grid.inversions % 2 !== 0) ||
+    (!grid.isEvenRow && grid.inversions % 2 === 0)
+  )
+    assign();
+  else shuffle();
+};
+
 // Population
 const assign = (): void => {
   grid.elementTiles.length = 0;
@@ -95,6 +129,7 @@ const assign = (): void => {
   match();
   check();
 };
+
 // Tile Movement
 const move = (tileValue: number): void => {
   const tileIndex = grid.elementValue.indexOf(tileValue);
@@ -128,6 +163,7 @@ const move = (tileValue: number): void => {
   grid.moves++;
   assign();
 };
+
 // Keyboard Controls
 const keyControl = (key: KeyboardEvent): void => {
   if (
@@ -154,6 +190,7 @@ const keyControl = (key: KeyboardEvent): void => {
       shuffle();
   }
 };
+
 // Timer Controls
 const timeStart = (): void => {
   if (grid.startTime === 0) {
@@ -172,6 +209,7 @@ const timeStop = (): void => {
     grid.seconds = ~~(grid.timeElapsed - grid.minutes * 60);
   }
 };
+
 // Verify if Orders Match
 const match = (): void => {
   grid.matchingValue.length = 0;
@@ -181,6 +219,7 @@ const match = (): void => {
   });
   colorSet();
 };
+
 // Correctly Placed Tiles
 const colorSet = (): void => {
   grid.elementValue.forEach(v => {
@@ -190,6 +229,7 @@ const colorSet = (): void => {
       document.getElementById(v.toString())?.classList.remove('bg-emerald-400');
   });
 };
+
 // Checking for a Solution
 const check = (): void => {
   const modal = document.getElementById('modal');
@@ -295,6 +335,7 @@ const template = t`
     </p>
   </footer>
 `;
+
 // Watchers
 w(match);
 w(check);
@@ -304,8 +345,10 @@ registerSW();
 document.addEventListener('keydown', key => {
   keyControl(key);
 });
-// Easter Egg
-console.log("Hope you don't get the 14-15 one!");
+
 // Render
 const appElement = document.getElementById('app');
 if (appElement !== null) template(appElement);
+
+// Easter Egg
+console.log('Now impossible to get the 14-15 one!');

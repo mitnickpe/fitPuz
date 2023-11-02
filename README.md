@@ -13,7 +13,7 @@
 
 ## Install
 ```sh
-yarn install
+yarn
 ```
 ## Develop
 ### Run Env.
